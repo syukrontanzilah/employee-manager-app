@@ -1,8 +1,11 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, ScrollView, Modal } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, Modal, Alert } from 'react-native'
 import { colors } from '../utils/colors'
 import { TextInput, Button } from 'react-native-paper'
 import Gap from '../component/Gap'
+import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from 'expo-permissions';
+
 
 const Input = ({ value, label, onChangeText, keyboardType }) => {
     return (
@@ -34,6 +37,36 @@ const InputForm = () => {
     const [salary, setSalary] = useState("")
     const [picture, setPicture] = useState("")
     const [modal, setModal] = useState(false)
+
+    const pickFromGallery = async () => {
+        const { granted } = await Permissions.askAsync(Permissions.CAMERA_ROLL)
+        if (granted) {
+            let data = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: true,
+                aspect: [1, 1],
+                quality: 0.5
+            })
+            console.log(data)
+        } else {
+            Alert.alert("Ops terjadi kesalahan")
+        }
+    }
+
+    const pickFromCamera = async () => {
+        const { granted } = await Permissions.askAsync(Permissions.CAMERA_ROLL)
+        if (granted) {
+            let data = await ImagePicker.launchCameraAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+                allowsEditing: true,
+                aspect: [1, 1],
+                quality: 0.5
+            })
+            console.log(data)
+        } else {
+            Alert.alert("Ops terjadi kesalahan")
+        }
+    }
 
     return (
         <View style={styles.page}>
@@ -70,7 +103,7 @@ const InputForm = () => {
                     Upload Image
                 </Button>
                 <Gap height={20} />
-                <Button icon="content-save" mode="contained" color="purple" 
+                <Button icon="content-save" mode="contained" color="purple"
                 >
                     Save
                 </Button>
@@ -86,11 +119,11 @@ const InputForm = () => {
                     <View style={styles.viewModal}>
                         <View style={styles.viewButton}>
                             <Button icon="camera" mode="contained"
-                                onPress={() => setModal(false)}>
+                                onPress={() => pickFromCamera()}>
                                 Camera
                         </Button>
                             <Button icon="camera" mode="contained"
-                                onPress={() => setModal(false)}>
+                                onPress={() => pickFromGallery()}>
                                 Gallery
                         </Button>
                         </View>

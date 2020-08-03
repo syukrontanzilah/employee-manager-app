@@ -1,10 +1,11 @@
-import React from 'react'
-import { StyleSheet, Text, View, ScrollView, Image, TouchableOpacity, Linking, Platform } from 'react-native'
-import { colors } from '../utils/colors'
+import { Entypo, MaterialIcons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient'
-import { image3 } from '../asset/image'
+import React from 'react'
+import { Image, Linking, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Card, Title } from 'react-native-paper'
-import { MaterialIcons, Ionicons, Entypo } from '@expo/vector-icons';
+import { image3 } from '../asset/image'
+import Gap from '../component/Gap'
+import { colors } from '../utils/colors'
 
 
 const ListItem = ({ icon, title, onPress }) => {
@@ -28,8 +29,8 @@ const ButtonIcon = ({ icon, onPress }) => {
     )
 }
 
-
-const Profile = () => {
+const Profile = (props) => {
+    const {id, name, picture, salary, phone, email, position} = props.route.params.item
     const openDial = () => {
         if (Platform.OS === "android") {
             Linking.openURL("tel:12345678")
@@ -48,12 +49,12 @@ const Profile = () => {
                 />
                 {/* photo profile */}
                 <Card style={styles.wrapAvatar}>
-                    <Image source={{ uri: image3 }} style={styles.avatar} />
+                    <Image source={{ uri: picture }} style={styles.avatar} />
                 </Card>
                 {/* name and position profile */}
                 <View style={{ alignItems: 'center', marginVertical: 10 }}>
-                    <Title>Muhammad Bilal</Title>
-                    <Text style={styles.prof}>Frontend Developer</Text>
+                    <Title>{name}</Title>
+                    <Text style={styles.prof}>{position}</Text>
                 </View>
                 {/* description */}
                 <Card style={styles.cardContent}>
@@ -61,11 +62,11 @@ const Profile = () => {
                         onPress={() => {
                             Linking.openURL("mailto:muhammadbilal@gmail.com")
                         }}
-                        icon="email" title="muhammadbilal@gmail.com" />
+                        icon="email" title={email} />
                     <ListItem
                         onPress={openDial}
-                        icon="phone" title="0812998293" />
-                    <ListItem icon="data-usage" title="25000000" />
+                        icon="phone" title={phone} />
+                    <ListItem icon="data-usage" title={salary} />
                 </Card>
 
                 <View style={styles.wrapButton}>
@@ -73,7 +74,7 @@ const Profile = () => {
                     <ButtonIcon icon="trash" />
                 </View>
 
-
+                <Gap height={40} />
             </ScrollView>
         </View>
     )

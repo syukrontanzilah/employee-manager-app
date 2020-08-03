@@ -18,7 +18,14 @@ const MainApp =()=>{
    <Stack.Navigator>
      <Stack.Screen name="Home" component={Home}/>
      <Stack.Screen name="Input Form" component={InputForm}/>
-     <Stack.Screen name="Profile" component={Profile}/>
+     <Stack.Screen name="Profile" component={Profile} 
+     options ={{
+       title:"Profile",
+       headerTintColor: "wheat",
+       headerStyle:{
+         backgroundColor:'purple'
+       }
+     }}/>
      <Stack.Screen name="Edit Form" component={EditForm}/>
    </Stack.Navigator>
   )
