@@ -47,7 +47,14 @@ const InputForm = () => {
                 aspect: [1, 1],
                 quality: 0.5
             })
-            console.log(data)
+            if (!data.cancelled) {
+                let newfile = {
+                    uri: data.uri,
+                    type: `test/${data.uri.split(".")[1]}`,
+                    name: `test.${data.uri.split(".")[1]}`
+                }
+                handleUpload(newfile)
+            }
         } else {
             Alert.alert("Ops terjadi kesalahan")
         }
@@ -62,10 +69,36 @@ const InputForm = () => {
                 aspect: [1, 1],
                 quality: 0.5
             })
-            console.log(data)
+            if (!data.cancelled) {
+                let newfile = {
+                    uri: data.uri,
+                    type: `test/${data.uri.split(".")[1]}`,
+                    name: `test.${data.uri.split(".")[1]}`
+                }
+                handleUpload(newfile)
+            }
         } else {
             Alert.alert("Ops terjadi kesalahan")
         }
+    }
+
+    const handleUpload = (image) => {
+        const data = new FormData()
+        data.append("file", image)
+        data.append("upload_preset", "employeeApp")
+        data.append("cloud_name", "Rubicamp")
+
+        fetch("https://api.cloudinary.com/v1_1/rubicamp/image/upload", {
+            method: "post",
+            body: data
+        }).then(res => res.json())
+            .then(data => {
+                console.log(data)
+                setPicture(data.url)
+                setModal(false)
+            })
+
+
     }
 
     return (
@@ -99,7 +132,12 @@ const InputForm = () => {
                     onChangeText={text => setSalary(text)} />
 
                 <Gap height={20} />
-                <Button icon="upload" mode="contained" color="purple" onPress={() => setModal(true)}>
+                {/* BUTTON UPLOAD IMAGE */}
+                <Button
+                    icon={picture === "" ? "upload" : "check"}
+                    mode="contained"
+                    color="purple"
+                    onPress={() => setModal(true)}>
                     Upload Image
                 </Button>
                 <Gap height={20} />
