@@ -1,0 +1,3 @@
+export const image1 = 'https://images.unsplash.com/photo-1548343874-ea7b35b1fd4a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60'
+export const image2 = "https://images.unsplash.com/photo-1551411979-4b7e24ec51e2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
+export const image3 ="https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
