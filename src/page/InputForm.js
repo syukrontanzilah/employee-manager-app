@@ -28,19 +28,39 @@ const theme = {
     }
 }
 
-const InputForm = ({navigation}) => {
-    const [name, setName] = useState("")
-    const [phone, setPhone] = useState("")
-    const [email, setEmail] = useState("")
-    const [position, setPosition] = useState("")
-    const [salary, setSalary] = useState("")
-    const [picture, setPicture] = useState("")
+const InputForm = ({ navigation, route }) => {
+    const getDetails = (type) => {
+        if (route.params) {
+            switch (type) {
+                case "name":
+                    return route.params.name
+                case "phone":
+                    return route.params.phone
+                case "email":
+                    return route.params.email
+                case "picture":
+                    return route.params.picture
+                case "position":
+                    return route.params.position
+                case "salary":
+                    return route.params.salary
+            }
+        }
+        return ""
+    }
+
+    const [name, setName] = useState(getDetails("name"))
+    const [phone, setPhone] = useState(getDetails("phone"))
+    const [email, setEmail] = useState(getDetails("email"))
+    const [position, setPosition] = useState(getDetails("position"))
+    const [salary, setSalary] = useState(getDetails("salary"))
+    const [picture, setPicture] = useState(getDetails("picture"))
     const [modal, setModal] = useState(false)
 
     const submitData = () => {
         fetch("http://192.168.43.140:3000/send-data", {
             method: "post",
-            headers:{
+            headers: {
                 'Content-Type': "application/json"
             },
             body: JSON.stringify({
@@ -51,16 +71,42 @@ const InputForm = ({navigation}) => {
                 salary,
                 picture,
             })
-        }).then(res=>res.json())
-        .then(data=>{
-            console.log(data)
-            Alert.alert(`${data.name} berhasil disimpan`)
-            navigation.navigate("Home")
-        })
-        .catch(err=>{
-            alert.alert("Terjadi kesalahan")
-        })
-       
+        }).then(res => res.json())
+            .then(data => {
+                console.log(data)
+                Alert.alert(`${data.name} berhasil disimpan`)
+                navigation.navigate("Home")
+            })
+            .catch(err => {
+                alert.alert("Terjadi kesalahan")
+            })
+
+    }
+
+    const updateDetails = () => {
+        fetch("http://192.168.43.140:3000/update", {
+            method: "post",
+            headers: {
+                'Content-Type': "application/json"
+            },
+            body: JSON.stringify({
+                id: route.params._id,
+                name,
+                email,
+                phone,
+                position,
+                salary,
+                picture,
+            })
+        }).then(res => res.json())
+            .then(data => {
+                console.log(data)
+                Alert.alert(`${data.name} berhasil di update`)
+                navigation.navigate("Home")
+            })
+            .catch(err => {
+                alert.alert("Terjadi kesalahan")
+            })
     }
 
     const pickFromGallery = async () => {
@@ -121,7 +167,7 @@ const InputForm = ({navigation}) => {
                 console.log(data)
                 setPicture(data.url)
                 setModal(false)
-            }).catch(err=>{
+            }).catch(err => {
                 alert.alert("Terjadi kesalahan saat upload foto")
             })
 
@@ -167,15 +213,29 @@ const InputForm = ({navigation}) => {
                     onPress={() => setModal(true)}>
                     Upload Image
                 </Button>
+                
                 <Gap height={20} />
-                <Button
-                    onPress={() => submitData()}
-                    icon="content-save"
-                    mode="contained"
-                    color="purple"
-                >
-                    Save
-                </Button>
+                {
+                    route.params ?
+                        <Button
+                            onPress={() => updateDetails()}
+                            icon="content-save"
+                            mode="contained"
+                            color="purple"
+                        >
+                            Update Details
+                     </Button>
+                        :
+                        <Button
+                            onPress={() => submitData()}
+                            icon="content-save"
+                            mode="contained"
+                            color="purple"
+                        >
+                            Save
+                        </Button>
+                }
+
                 <Gap height={20} />
 
                 <Modal

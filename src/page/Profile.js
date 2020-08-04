@@ -90,10 +90,16 @@ const Profile = (props) => {
                 </Card>
 
                 <View style={styles.wrapButton}>
-                    <ButtonIcon icon="edit" />
                     <ButtonIcon
-                     icon="trash"
-                     onPress={()=> deleteEmployee()} />
+                        onPress={() => {
+                            props.navigation.navigate('Input Form', {
+                                _id, name, picture, salary, phone, email, position
+                            })
+                        }}
+                        icon="edit" />
+                    <ButtonIcon
+                        icon="trash"
+                        onPress={() => deleteEmployee()} />
                 </View>
 
                 <Gap height={40} />

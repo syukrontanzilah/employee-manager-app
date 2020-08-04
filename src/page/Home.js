@@ -7,6 +7,7 @@ import { colors } from '../utils/colors';
 import AddButton from '../component/AddButton';
 import Gap from '../component/Gap';
 import { image1, image2, image3 } from '../asset/image';
+import {useSelector, useDispatch} from 'react-redux'
 
 
 const Home = ({ navigation }) => {
@@ -15,17 +16,28 @@ const Home = ({ navigation }) => {
     //     { _id: 2, name: "Halimah Shafa Maulida Alfi", email: "halimah@gmail.com", phone: "081556565661", position: "Marketing", salary: "8000000", picture: image2 },
     //     { _id: 3, name: "Muhammad Bilal", email: "muhammadbilal@yahoo.com", phone: "084998933434", position: "Frontend Developer", salary: "10500000", picture: image3 }
     // ]
-
-    const [data, setData] = useState([])
-    const [loading, setLoading] = useState(true)
+    // const [data, setData] = useState([])
+    // const [loading, setLoading] = useState(true)
+    const dispatch = useDispatch()
+    const {data, loading} = useSelector((state)=>{
+        return state
+    })
 
     const fetchData = () => {
         fetch("http://192.168.43.140:3000/")
             .then(res => res.json())
             .then(results => {
-                console.log(results)
-                setData(results)
-                setLoading(false)
+                // setData(results)
+                // setLoading(false)
+                dispatch({
+                    type:"ADD_DATA",
+                    payload: results
+                })
+                dispatch({
+                    type:"SET_LOADING",
+                    payload: false
+                })
+
             }).catch(err => {
                 alert.alert("Terjadi kesalahan")
             })
