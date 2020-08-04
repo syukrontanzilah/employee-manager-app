@@ -43,7 +43,7 @@ const Profile = (props) => {
             })
         }).then(res => res.json())
             .then(deletedEmp => {
-                Alert.alert(`${deletedEmp.name} dihapus`)
+                Alert.alert(`${deletedEmp.name} -  berhasil dihapus`)
                 props.navigation.navigate("Home")
             })
             .catch(err => {
