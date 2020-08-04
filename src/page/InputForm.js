@@ -38,6 +38,27 @@ const InputForm = () => {
     const [picture, setPicture] = useState("")
     const [modal, setModal] = useState(false)
 
+    const submitData = () => {
+        fetch("http://192.168.43.140:3000/send-data", {
+            method: "post",
+            headers:{
+                'Content-Type': "application/json"
+            },
+            body: JSON.stringify({
+                name,
+                email,
+                phone,
+                position,
+                salary,
+                picture,
+            })
+        }).then(res=>res.json())
+        .then(data=>{
+            console.log(data)
+        })
+       
+    }
+
     const pickFromGallery = async () => {
         const { granted } = await Permissions.askAsync(Permissions.CAMERA_ROLL)
         if (granted) {
@@ -141,7 +162,11 @@ const InputForm = () => {
                     Upload Image
                 </Button>
                 <Gap height={20} />
-                <Button icon="content-save" mode="contained" color="purple"
+                <Button
+                    onPress={() => submitData()}
+                    icon="content-save"
+                    mode="contained"
+                    color="purple"
                 >
                     Save
                 </Button>
