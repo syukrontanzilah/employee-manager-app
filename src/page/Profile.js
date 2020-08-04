@@ -1,7 +1,7 @@
 import { Entypo, MaterialIcons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient'
 import React from 'react'
-import { Image, Linking, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, Linking, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View, Alert } from 'react-native'
 import { Card, Title } from 'react-native-paper'
 import { image3 } from '../asset/image'
 import Gap from '../component/Gap'
@@ -30,7 +30,27 @@ const ButtonIcon = ({ icon, onPress }) => {
 }
 
 const Profile = (props) => {
-    const {id, name, picture, salary, phone, email, position} = props.route.params.item
+    const { _id, name, picture, salary, phone, email, position } = props.route.params.item
+    console.log(_id)
+    const deleteEmployee = () => {
+        fetch("http://192.168.43.140:3000/delete", {
+            method: "post",
+            headers: {
+                'Content-Type': "application/json"
+            },
+            body: JSON.stringify({
+                id: _id
+            })
+        }).then(res => res.json())
+            .then(deletedEmp => {
+                Alert.alert(`${deletedEmp.name} dihapus`)
+                props.navigation.navigate("Home")
+            })
+            .catch(err => {
+                Alert.alert("Terjadi kesalahan")
+            })
+    }
+
     const openDial = () => {
         if (Platform.OS === "android") {
             Linking.openURL(`tel:${phone}`)
@@ -60,7 +80,7 @@ const Profile = (props) => {
                 <Card style={styles.cardContent}>
                     <ListItem
                         onPress={() => {
-                            Linking.openURL("mailto:muhammadbilal@gmail.com")
+                            Linking.openURL(`mailto:${email}`)
                         }}
                         icon="email" title={email} />
                     <ListItem
@@ -71,7 +91,9 @@ const Profile = (props) => {
 
                 <View style={styles.wrapButton}>
                     <ButtonIcon icon="edit" />
-                    <ButtonIcon icon="trash" />
+                    <ButtonIcon
+                     icon="trash"
+                     onPress={()=> deleteEmployee()} />
                 </View>
 
                 <Gap height={40} />

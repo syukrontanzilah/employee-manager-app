@@ -28,8 +28,7 @@ const theme = {
     }
 }
 
-
-const InputForm = () => {
+const InputForm = ({navigation}) => {
     const [name, setName] = useState("")
     const [phone, setPhone] = useState("")
     const [email, setEmail] = useState("")
@@ -55,6 +54,11 @@ const InputForm = () => {
         }).then(res=>res.json())
         .then(data=>{
             console.log(data)
+            Alert.alert(`${data.name} berhasil disimpan`)
+            navigation.navigate("Home")
+        })
+        .catch(err=>{
+            alert.alert("Terjadi kesalahan")
         })
        
     }
@@ -117,6 +121,8 @@ const InputForm = () => {
                 console.log(data)
                 setPicture(data.url)
                 setModal(false)
+            }).catch(err=>{
+                alert.alert("Terjadi kesalahan saat upload foto")
             })
 
 
@@ -170,6 +176,8 @@ const InputForm = () => {
                 >
                     Save
                 </Button>
+                <Gap height={20} />
+
                 <Modal
                     animationType="slide"
                     transparent={true}
