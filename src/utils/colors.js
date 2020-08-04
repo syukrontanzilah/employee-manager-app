@@ -7,5 +7,4 @@ export const colors ={
     secondary: 'violet',
     border: 'lightgray',
     bckg:'#ebebeb'
-
 }

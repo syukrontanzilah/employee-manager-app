@@ -1,7 +1,6 @@
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React from 'react';
+import { StyleSheet } from 'react-native';
 import { FAB } from 'react-native-paper';
-import { colors } from '../utils/colors';
 
 const AddButton = ({ onPress }) => {
     return (
@@ -14,9 +13,7 @@ const AddButton = ({ onPress }) => {
         />
     )
 }
-
 export default AddButton
-
 const styles = StyleSheet.create({
     fab: {
         position: 'absolute',

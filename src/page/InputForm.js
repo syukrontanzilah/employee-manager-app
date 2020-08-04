@@ -1,12 +1,12 @@
+import * as ImagePicker from 'expo-image-picker'
+import * as Permissions from 'expo-permissions'
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, ScrollView, Modal, Alert } from 'react-native'
-import { colors } from '../utils/colors'
-import { TextInput, Button } from 'react-native-paper'
+import { Alert, Modal, ScrollView, StyleSheet, View } from 'react-native'
+import { Button, TextInput } from 'react-native-paper'
 import Gap from '../component/Gap'
-import * as ImagePicker from 'expo-image-picker';
-import * as Permissions from 'expo-permissions';
+import { colors } from '../utils/colors'
 
-
+// component input
 const Input = ({ value, label, onChangeText, keyboardType }) => {
     return (
         <View style={{ marginBottom: 10 }}>
@@ -57,6 +57,7 @@ const InputForm = ({ navigation, route }) => {
     const [picture, setPicture] = useState(getDetails("picture"))
     const [modal, setModal] = useState(false)
 
+    // MENYIMPAN DATA
     const submitData = () => {
         fetch("http://192.168.43.140:3000/send-data", {
             method: "post",
@@ -83,6 +84,7 @@ const InputForm = ({ navigation, route }) => {
 
     }
 
+    // MENG-EDIT DATA
     const updateDetails = () => {
         fetch("http://192.168.43.140:3000/update", {
             method: "post",
@@ -109,6 +111,7 @@ const InputForm = ({ navigation, route }) => {
             })
     }
 
+    // MENGAMBIL FOTO DARI GALLERY
     const pickFromGallery = async () => {
         const { granted } = await Permissions.askAsync(Permissions.CAMERA_ROLL)
         if (granted) {
@@ -131,6 +134,7 @@ const InputForm = ({ navigation, route }) => {
         }
     }
 
+    // MENGAMBIL FOTO DARI CAMERA
     const pickFromCamera = async () => {
         const { granted } = await Permissions.askAsync(Permissions.CAMERA_ROLL)
         if (granted) {
@@ -153,12 +157,12 @@ const InputForm = ({ navigation, route }) => {
         }
     }
 
+    // MENGUPLOAD FOTO KE CLOUD
     const handleUpload = (image) => {
         const data = new FormData()
         data.append("file", image)
         data.append("upload_preset", "employeeApp")
         data.append("cloud_name", "Rubicamp")
-
         fetch("https://api.cloudinary.com/v1_1/rubicamp/image/upload", {
             method: "post",
             body: data
@@ -170,8 +174,6 @@ const InputForm = ({ navigation, route }) => {
             }).catch(err => {
                 alert.alert("Terjadi kesalahan saat upload foto")
             })
-
-
     }
 
     return (
@@ -203,7 +205,6 @@ const InputForm = ({ navigation, route }) => {
                     value={salary}
                     keyboardType="number-pad"
                     onChangeText={text => setSalary(text)} />
-
                 <Gap height={20} />
                 {/* BUTTON UPLOAD IMAGE */}
                 <Button
@@ -213,7 +214,7 @@ const InputForm = ({ navigation, route }) => {
                     onPress={() => setModal(true)}>
                     Upload Image
                 </Button>
-                
+
                 <Gap height={20} />
                 {
                     route.params ?
@@ -235,9 +236,8 @@ const InputForm = ({ navigation, route }) => {
                             Save
                         </Button>
                 }
-
                 <Gap height={20} />
-
+                {/* MODAL PILIH CAMERA/GALLERY */}
                 <Modal
                     animationType="slide"
                     transparent={true}
@@ -245,7 +245,6 @@ const InputForm = ({ navigation, route }) => {
                     onRequestClose={() => {
                         setModal(false)
                     }}
-
                 >
                     <View style={styles.viewModal}>
                         <View style={styles.viewButton}>
@@ -262,13 +261,9 @@ const InputForm = ({ navigation, route }) => {
                             onPress={() => setModal(false)}>
                             Cancel
                         </Button>
-
                     </View>
-
                 </Modal>
-
             </ScrollView>
-
         </View>
     )
 }

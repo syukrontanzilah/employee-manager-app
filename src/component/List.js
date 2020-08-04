@@ -1,9 +1,7 @@
 import React from 'react'
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import { Card } from 'react-native-paper'
 import { colors } from '../utils/colors'
-import { image1 } from '../asset/image'
-
 
 const List = ({picture, name, position, onPress}) => {
     return (
@@ -19,8 +17,6 @@ const List = ({picture, name, position, onPress}) => {
                     <Text style={styles.position}>{position}</Text>
                 </View>
             </View>
-
-
         </Card>
     )
 }

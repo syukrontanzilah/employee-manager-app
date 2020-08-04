@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 
 const Gap = ({ height, width }) => {
     return (
@@ -7,7 +7,5 @@ const Gap = ({ height, width }) => {
         </View>
     )
 }
-
 export default Gap
-
 const styles = StyleSheet.create({})

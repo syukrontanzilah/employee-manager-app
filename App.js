@@ -3,7 +3,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import 'react-native-gesture-handler';
-import EditForm from './src/page/EditForm';
 import Home from './src/page/Home';
 import InputForm from './src/page/InputForm';
 import Profile from './src/page/Profile';
@@ -29,12 +28,12 @@ const MainApp = () => {
             backgroundColor: 'purple'
           }
         }} />
-      <Stack.Screen name="Edit Form" component={EditForm} />
     </Stack.Navigator>
   )
 }
 
 const App = () => {
+  console.disableYellowBox = true;
   return (
     <Provider store={store}>
       <NavigationContainer>

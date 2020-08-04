@@ -1,14 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Image, FlatList, ActivityIndicator } from 'react-native'
-import { Card } from 'react-native-paper'
 import { StatusBar } from 'expo-status-bar';
-import List from '../component/List';
-import { colors } from '../utils/colors';
+import React, { useEffect } from 'react';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import AddButton from '../component/AddButton';
 import Gap from '../component/Gap';
-import { image1, image2, image3 } from '../asset/image';
-import {useSelector, useDispatch} from 'react-redux'
-
+import List from '../component/List';
+import { colors } from '../utils/colors';
 
 const Home = ({ navigation }) => {
     // const data = [
@@ -19,7 +16,7 @@ const Home = ({ navigation }) => {
     // const [data, setData] = useState([])
     // const [loading, setLoading] = useState(true)
     const dispatch = useDispatch()
-    const {data, loading} = useSelector((state)=>{
+    const { data, loading } = useSelector((state) => {
         return state
     })
 
@@ -29,26 +26,16 @@ const Home = ({ navigation }) => {
             .then(results => {
                 // setData(results)
                 // setLoading(false)
-                dispatch({
-                    type:"ADD_DATA",
-                    payload: results
-                })
-                dispatch({
-                    type:"SET_LOADING",
-                    payload: false
-                })
-
+                dispatch({type: "ADD_DATA", payload: results})
+                dispatch({type: "SET_LOADING",payload: false})
             }).catch(err => {
                 alert.alert("Terjadi kesalahan")
             })
     }
 
-
     useEffect(() => {
         fetchData()
     }, [])
-
-
 
     const renderList = ((item) => {
         return (
@@ -68,7 +55,7 @@ const Home = ({ navigation }) => {
                 {/* {renderList} */}
 
                 <FlatList
-                showsVerticalScrollIndicator={false}
+                    showsVerticalScrollIndicator={false}
                     data={data}
                     renderItem={({ item }) => {
                         return renderList(item)
@@ -77,16 +64,7 @@ const Home = ({ navigation }) => {
                     onRefresh={() => fetchData()}
                     refreshing={loading}
                 />
-
-
-                    <Text style={{
-                        textAlign: 'center',
-                        marginTop: 5,
-                        fontSize: 13,
-                        color: 'gray'
-                    }}>Pull down to refresh</Text>
-             
-
+                <Text style={styles.textDesc}>Skip ke bawah untuk me-refresh..</Text>
             </View>
             <Gap height={100} />
             {/* </ScrollView> */}
@@ -106,5 +84,11 @@ const styles = StyleSheet.create({
     },
     content: {
 
+    },
+    textDesc: {
+        textAlign: 'center',
+        marginTop: 5,
+        fontSize: 13,
+        color: 'gray'
     }
 })

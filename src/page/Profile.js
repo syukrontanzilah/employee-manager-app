@@ -1,12 +1,10 @@
 import { Entypo, MaterialIcons } from '@expo/vector-icons'
 import { LinearGradient } from 'expo-linear-gradient'
 import React from 'react'
-import { Image, Linking, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View, Alert } from 'react-native'
+import { Alert, Image, Linking, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Card, Title } from 'react-native-paper'
-import { image3 } from '../asset/image'
 import Gap from '../component/Gap'
 import { colors } from '../utils/colors'
-
 
 const ListItem = ({ icon, title, onPress }) => {
     return (
@@ -88,7 +86,7 @@ const Profile = (props) => {
                         icon="phone" title={phone} />
                     <ListItem icon="data-usage" title={salary} />
                 </Card>
-
+                {/* BUTTON EDIT DAN DELETE */}
                 <View style={styles.wrapButton}>
                     <ButtonIcon
                         onPress={() => {
@@ -101,7 +99,6 @@ const Profile = (props) => {
                         icon="trash"
                         onPress={() => deleteEmployee()} />
                 </View>
-
                 <Gap height={40} />
             </ScrollView>
         </View>
